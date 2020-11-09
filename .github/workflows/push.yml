@@ -1,5 +1,11 @@
 name: CI/CD
 on: push
+env:
+  SLACK_WEBHOOK: ${{ secrets.ADMIN_SLACK_WEBHOOK }}
+  NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
 jobs:
   test:
     name: test
@@ -27,12 +33,14 @@ jobs:
         run: yarn build
       - name: Test
         run: yarn test
-      - name: Release
-        env:
-          SLACK_WEBHOOK: ${{ secrets.ADMIN_SLACK_WEBHOOK }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: yarn release
+      - name: Authenticate with NPM Token
+        run: yarn config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
+#      - name: Release
+#        env:
+#          SLACK_WEBHOOK: ${{ secrets.ADMIN_SLACK_WEBHOOK }}
+#          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: yarn release
 
   notify:
     name: Notify
