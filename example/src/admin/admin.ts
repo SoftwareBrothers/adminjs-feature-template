@@ -1,17 +1,18 @@
-import AdminBroExpress from 'admin-bro-expressjs';
-import MongooseAdapter from '@admin-bro/mongoose';
-import AdminBro from 'admin-bro';
+import AdminJSExpress from '@adminjs/express';
+import MongooseAdapter from '@adminjs/mongoose';
+import AdminJS from 'adminjs';
 import { Express } from 'express';
+
 import { createUserResource } from './resources/user/user.resource';
 
 const setupAdmin = async (app: Express): Promise<void> => {
-  AdminBro.registerAdapter(MongooseAdapter);
-  const adminBro = new AdminBro({
+  AdminJS.registerAdapter(MongooseAdapter);
+  const adminJs = new AdminJS({
     resources: [createUserResource()],
   });
 
-  const router = await AdminBroExpress.buildRouter(adminBro);
-  app.use(adminBro.options.rootPath, router);
+  const router = await AdminJSExpress.buildRouter(adminJs);
+  app.use(adminJs.options.rootPath, router);
 };
 
 export default setupAdmin;
