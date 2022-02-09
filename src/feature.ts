@@ -1,4 +1,4 @@
-import { buildFeature, FeatureType } from 'admin-bro';
+import { buildFeature, FeatureType } from 'adminjs';
 
 const feature = (): FeatureType => {
   return buildFeature({
